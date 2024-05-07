@@ -3,6 +3,9 @@ using Raylib_cs;
 
 class Game
 {
+	//! debug
+	private static Button button;
+
 	public static void Run()
 	{
 		// Setup raylib stuff
@@ -25,6 +28,9 @@ class Game
 		// Load everything
 		Assets.LoadAssets();
 		Settings.ReloadSettings();
+
+		//! debug
+		button = new Button("Lorem Ipsum", new Vector2(10, 10), new Vector2(500, 230), Test, false);
 	}
 
 	private static void Update()
@@ -34,6 +40,8 @@ class Game
 			Settings.UseAurebesh = !Settings.UseAurebesh;
 			Settings.ReloadSettings();
 		}
+
+		button.Update();
 	}
 
 	private static void Render()
@@ -41,7 +49,7 @@ class Game
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.Magenta);
 
-		Raylib.DrawTextEx(Settings.Font, "Sabacc (gambling rn)", new Vector2(20, 164), 45f, (45f / 10f), Color.White);
+		button.Render();
 
 		Raylib.EndDrawing();
 	}
@@ -52,5 +60,11 @@ class Game
 
 		//! Make sure this is always closed last
 		Raylib.CloseWindow();
+	}
+
+
+	private static void Test()
+	{
+		Console.WriteLine("testing rn");
 	}
 }
