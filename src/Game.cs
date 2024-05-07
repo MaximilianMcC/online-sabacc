@@ -1,47 +1,56 @@
+using System.Numerics;
 using Raylib_cs;
 
 class Game
 {
-    public static void Run()
-    {
-        Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
+	public static void Run()
+	{
+		// Setup raylib stuff
+		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
+		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow | ConfigFlags.AlwaysRunWindow);
+		Raylib.InitWindow(400, 300, "online sabacc play free online now games unblocked free games for kids video game gamer online free sabacc game video gamers online gambling games big win");
+		Raylib.SetTargetFPS(60);
 
-        // Setup raylib stuff
-        Raylib.SetConfigFlags(ConfigFlags.ResizableWindow | ConfigFlags.AlwaysRunWindow);
-        Raylib.InitWindow(400, 300, "online sabacc play free online now games unblocked free games for kids video game gamer online free sabacc game video gamers");
-        Raylib.SetTargetFPS(60);
+		Start();
+		while (!Raylib.WindowShouldClose())
+		{
+			Update();
+			Render();
+		}
+		CleanUp();
+	}
 
-        Start();
-        while (!Raylib.WindowShouldClose())
-        {
-            Update();
-            Render();
-        }
-        CleanUp();
-    }
+	public static void Start()
+	{
+		// Load everything
+		Assets.LoadAssets();
+		Settings.ReloadSettings();
+	}
 
-    public static void Start()
-    {
+	private static void Update()
+	{
+		if (Raylib.IsKeyPressed(KeyboardKey.Space))
+		{
+			Settings.UseAurebesh = !Settings.UseAurebesh;
+			Settings.ReloadSettings();
+		}
+	}
 
-    }
+	private static void Render()
+	{
+		Raylib.BeginDrawing();
+		Raylib.ClearBackground(Color.Magenta);
 
-    private static void Update()
-    {
+		Raylib.DrawTextEx(Settings.Font, "Sabacc (gambling rn)", new Vector2(20, 164), 45f, (45f / 10f), Color.White);
 
-    }
+		Raylib.EndDrawing();
+	}
 
-    private static void Render()
-    {
-        Raylib.BeginDrawing();
-        Raylib.ClearBackground(Color.Magenta);
+	private static void CleanUp()
+	{
+		Assets.UnloadAssets();
 
-        Raylib.DrawText("sabacceroni", 10, 10, 50, Color.White);
-
-        Raylib.EndDrawing();
-    }
-
-    private static void CleanUp()
-    {
-        Raylib.CloseWindow();
-    }
+		//! Make sure this is always closed last
+		Raylib.CloseWindow();
+	}
 }
