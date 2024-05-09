@@ -30,7 +30,7 @@ class Game
 		Settings.ReloadSettings();
 
 		//! debug
-		button = new Button("Lorem Ipsum", new Vector2(10, 10), new Vector2(500, 230), Test, false);
+		button = new Button("Lorem Ipsum", new Vector2(10, 10), new Vector2(500, 230), Test, true);
 	}
 
 	private static void Update()
@@ -39,6 +39,7 @@ class Game
 		{
 			Settings.UseAurebesh = !Settings.UseAurebesh;
 			Settings.ReloadSettings();
+			UiHandler.ReloadTextSizes();
 		}
 
 		button.Update();
