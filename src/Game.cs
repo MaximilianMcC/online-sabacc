@@ -3,16 +3,16 @@ using Raylib_cs;
 
 class Game
 {
-	//! debug
-	private static Button button;
+
+	public static Scene Scene { get; set; }
 
 	public static void Run()
 	{
 		// Setup raylib stuff
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.SetConfigFlags(ConfigFlags.ResizableWindow | ConfigFlags.AlwaysRunWindow);
-		Raylib.InitWindow(400, 300, "online sabacc play free online now games unblocked free games for kids video game gamer online free sabacc game video gamers online gambling games big win");
-		Raylib.SetTargetFPS(60);
+		Raylib.InitWindow(800, 600, "online sabacc play free online now games unblocked free games for kids video game gamer online free sabacc game video gamers online gambling games big win");
+		Raylib.SetTargetFPS(144);
 
 		Start();
 		while (!Raylib.WindowShouldClose())
@@ -20,7 +20,7 @@ class Game
 			Update();
 			Render();
 		}
-		CleanUp();
+		Close();
 	}
 
 	public static void Start()
@@ -29,12 +29,15 @@ class Game
 		Assets.LoadAssets();
 		Settings.ReloadSettings();
 
-		//! debug
-		button = new Button("Lorem Ipsum", new Vector2(10, 10), new Vector2(500, 230), Test, true);
+		// Start with the main menu scene
+		Scene = new MainMenuScene();
+		Scene.Start();
 	}
 
 	private static void Update()
 	{
+		//! debug thing for toggle between English and Aurebesh
+		// TODO: Remove
 		if (Raylib.IsKeyPressed(KeyboardKey.Space))
 		{
 			Settings.UseAurebesh = !Settings.UseAurebesh;
@@ -42,7 +45,8 @@ class Game
 			UiHandler.ReloadTextSizes();
 		}
 
-		button.Update();
+		// Update the current scene
+		Scene.Update();
 	}
 
 	private static void Render()
@@ -50,22 +54,22 @@ class Game
 		Raylib.BeginDrawing();
 		Raylib.ClearBackground(Color.Magenta);
 
-		button.Render();
+		// Draw the current scene
+		Scene.Render();
 
 		Raylib.EndDrawing();
 	}
 
-	private static void CleanUp()
+	public static void Close()
 	{
+		// Close the current scene
+		Scene.CleanUp();
+
+		// Unload everything
 		Assets.UnloadAssets();
 
-		//! Make sure this is always closed last
+		// Kill raylib
+		//! Make sure this is always done last
 		Raylib.CloseWindow();
-	}
-
-
-	private static void Test()
-	{
-		Console.WriteLine("testing rn");
 	}
 }
