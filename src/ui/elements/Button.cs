@@ -47,10 +47,13 @@ class Button : UiElement
 		if (Disabled) return;
 
 		// Check for if the user is hovering over the button
+		bool currentlyHovered = false;
 		if (Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), rectangle))
 		{
 			// Update the hover status
 			hovered = true;
+			currentlyHovered = true;
+			Raylib.SetMouseCursor(MouseCursor.PointingHand);
 
 			// Check for if they wanna click on it then run the click method
 			// TODO: Add tab support (enter key and whatnot)
@@ -64,8 +67,13 @@ class Button : UiElement
 				OnClick.Invoke();
 			}
 		}
-		else hovered = false;
-		//! Probably bad to be constantly assigning and reassigning but its fine trust
+
+		// Disable the hover status
+		if (hovered == true && currentlyHovered == false)
+		{
+			hovered = false;
+			Raylib.SetMouseCursor(MouseCursor.Default);
+		}
 	}
 
 	public void Render()
