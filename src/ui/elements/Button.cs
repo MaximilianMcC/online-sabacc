@@ -64,6 +64,9 @@ class Button : UiElement
 				// ui manager because it wont be used again
 				if (suicidal) UiHandler.UiElements.Remove(this);
 
+				// Put the mouse cursor to be normal again
+				Raylib.SetMouseCursor(MouseCursor.Default);
+
 				// Click the button 
 				OnClick.Invoke();
 			}
