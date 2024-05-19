@@ -15,8 +15,9 @@ class Button : UiElement
 	private bool hovered;
 	private bool suicidal; //? Kill the button when its clicked (used when the button should only be pressed once then will disappear) atm it just stops it having the text repositioned
 
-	private Color backgroundColor = new Color(255, 0, 0, 255);
-	private Color hoveredColor = new Color(230, 0, 0, 255);
+	private readonly Color backgroundColor = new Color(255, 0, 0, 255);
+	private readonly Color hoveredColor = new Color(230, 0, 0, 255);
+	private readonly Color disabledColorOverlay = new Color(255, 255, 255, 96);
 	private const float padding = 25f;
 	private const float padding2 = 25f * 2f;
 
@@ -84,6 +85,11 @@ class Button : UiElement
 
 		// Draw the text
 		Raylib.DrawTextEx(Settings.Font, Text, textPosition, fontSize, (fontSize / 10), Color.White);
+
+		// If the button is disabled then draw a semi
+		// white rectangle over the top to make it
+		// look like its kinda grayed out
+		if (Disabled) Raylib.DrawRectangleRec(rectangle, disabledColorOverlay);
 	}
 
 	// Calculate the size and position of the text because
