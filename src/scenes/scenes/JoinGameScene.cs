@@ -4,14 +4,11 @@ using Raylib_cs;
 class JoinGameScene : Scene
 {
 
+	public JoinGameScene() : base("Joining a game") { }
+
 	public override void Start()
 	{
-		// Set the scenes name
-		// TODO: Do this automatically somehow as a property or something
-		Name = "Joining game";
 
-		// Unload the previous scene
-		Game.Scene.CleanUp();
 	}
 
 	public override void Update()

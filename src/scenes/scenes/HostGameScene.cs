@@ -4,14 +4,12 @@ using Raylib_cs;
 class HostGameScene : Scene
 {
 
+	public HostGameScene() : base("Hosting a game") { }
+
+
 	public override void Start()
 	{
-		// Set the scenes name
-		// TODO: Do this automatically somehow as a property or something
-		Name = "Game setup";
 
-		// Unload the previous scene
-		Game.Scene.CleanUp();
 	}
 
 	public override void Update()

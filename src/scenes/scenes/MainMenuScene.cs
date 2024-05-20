@@ -6,20 +6,10 @@ class MainMenuScene : Scene
 	private Button joinGameButton;
 	private Button quitButton;
 
+	public MainMenuScene() : base("Main Menu") { }
+
 	public override void Start()
 	{
-		// Set the scenes name
-		// TODO: Do this automatically somehow as a property or something
-		Name = "Main Menu";
-
-		// Unload the previous scene if one existed.
-		// Only case for this should be main menu (here)
-		if (Game.Scene != null) Game.Scene.CleanUp();
-
-
-
-
-
 		// Button initialization
 		// TODO: Make them to look half decent
 		hostGameButton = new Button("Host game", new Vector2(150, 30), new Vector2(200, 110), HostGame, true);
@@ -55,12 +45,12 @@ class MainMenuScene : Scene
 	private void HostGame()
 	{
 		// Chuck the player on the host game scene
-		Game.Scene = new HostGameScene();
+		SceneManager.SetScene(new HostGameScene());
 	}
 
 	private void JoinGame()
 	{
 		// Chuck the player on the join game scene
-		Game.Scene = new JoinGameScene();
+		SceneManager.SetScene(new JoinGameScene());
 	}
 }

@@ -4,8 +4,6 @@ using Raylib_cs;
 class Game
 {
 
-	public static Scene Scene { get; set; }
-
 	public static void Run()
 	{
 		// Setup raylib stuff
@@ -30,8 +28,7 @@ class Game
 		Settings.ReloadSettings();
 
 		// Start with the main menu scene
-		Scene = new MainMenuScene();
-		Scene.Start();
+		SceneManager.SetScene(new MainMenuScene());
 	}
 
 	private static void Update()
@@ -46,7 +43,7 @@ class Game
 		}
 
 		// Update the current scene
-		Scene.Update();
+		SceneManager.CurrentScene.Update();
 	}
 
 	private static void Render()
@@ -55,7 +52,7 @@ class Game
 		Raylib.ClearBackground(Color.Magenta);
 
 		// Draw the current scene
-		Scene.Render();
+		SceneManager.CurrentScene.Render();
 
 		Raylib.EndDrawing();
 	}
@@ -63,7 +60,7 @@ class Game
 	public static void Close()
 	{
 		// Close the current scene
-		Scene.CleanUp();
+		SceneManager.CurrentScene.CleanUp();
 
 		// Unload everything
 		Assets.UnloadAssets();
