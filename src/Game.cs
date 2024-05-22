@@ -28,7 +28,8 @@ class Game
 		Settings.ReloadSettings();
 
 		// Start with the main menu scene
-		SceneManager.SetScene(new MainMenuScene());
+		// SceneManager.SetScene(new MainMenuScene());
+		SceneManager.SetScene(new DebugScene());
 	}
 
 	private static void Update()
