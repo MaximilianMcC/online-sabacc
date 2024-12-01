@@ -20,8 +20,7 @@ public class Sabacc
 		deck.Add(new Card() { Value = 0, Suite = Suite.Sylop });
 		deck.Add(new Card() { Value = 0, Suite = Suite.Sylop });
 
-		// Shuffle the deck, then return it
-		Shuffle(ref deck);
+		// Return it
 		return deck;
 	}
 
@@ -45,12 +44,5 @@ public class Sabacc
 
 		// Give back the cards
 		return cards;
-	}
-
-	private static void Shuffle(ref List<Card> cards)
-	{
-		// Shuffle the cards using a random number
-		Random random = new Random();
-		cards = cards.OrderBy(card => random.NextDouble()).ToList();
 	}
 }
