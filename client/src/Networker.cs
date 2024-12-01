@@ -10,7 +10,7 @@ class Networker
 		using NetworkStream stream = client.GetStream();
 
 		// Send a message
-		string message = "well the weather outside is rizzy";
+		string message = "start";
 		byte[] messageBytes = Encoding.UTF8.GetBytes(message);
 		stream.Write(messageBytes, 0, messageBytes.Length);
 

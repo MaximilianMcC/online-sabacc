@@ -22,10 +22,16 @@ class Program
 			// TODO: Put in shared
 			byte[] buffer = new byte[1024];
 			int bytesRead = stream.Read(buffer, 0, buffer.Length);
-			string data = Encoding.UTF8.GetString(buffer);
+			string data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
-			// Print the message
-			Console.WriteLine(data);
+			// Check for what they wanna do
+			// TODO: Don't do this way
+			// TODO: Put somewhere else
+			if (data == "start")
+			{
+				Game game = new Game();
+				game.Start();
+			}
 
 			// Flick them a response
 			string response = "erhm";
