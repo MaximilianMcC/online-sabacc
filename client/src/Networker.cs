@@ -3,23 +3,26 @@ using System.Text;
 
 class Networker
 {
+	private static NetworkStream stream;
+
 	public static void Network(string ip, int port)
 	{
 		// Connect to the server
-		using TcpClient client = new TcpClient(ip, port);
-		using NetworkStream stream = client.GetStream();
+		TcpClient server = new TcpClient(ip, port);
+		stream = server.GetStream();
 
-		// Send a message
-		string message = "start";
-		byte[] messageBytes = Encoding.UTF8.GetBytes(message);
-		stream.Write(messageBytes, 0, messageBytes.Length);
+		// Ask to join the game
+		RequestToJoinGame();
+	}
 
-		Console.WriteLine("Sent packet to server");
+	private static void RequestToJoinGame()
+	{
+		// Ask the server for a UUID and to
+		// get registered to the game
+		Networking.SendPacket("join", stream);
 
-		// Get the incoming packet
-		// TODO: Put in shared
-		byte[] buffer = new byte[1024];
-		int bytesRead = stream.Read(buffer, 0, buffer.Length);
-		string data = Encoding.UTF8.GetString(buffer);
+		// Get the response
+		string uuid = Networking.ReceivePacket(stream);
+		Console.WriteLine("Got UUID " + uuid);
 	}
 }

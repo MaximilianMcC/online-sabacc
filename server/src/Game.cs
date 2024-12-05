@@ -8,6 +8,31 @@ class Game
 	// Player stuff
 	private List<Player> players;
 
+	public Game()
+	{
+		players = new List<Player>();
+	}
+
+	public string AddPlayer()
+	{
+		// Get a random UUID for the player, and make
+		// an empty hand for them
+		string uuid = Guid.NewGuid().ToString();
+		List<Card> hand = new List<Card>();
+
+		// Make the player
+		players.Add(new Player() {
+			Uuid = uuid,
+			Hand = hand
+		});
+
+		Console.WriteLine("Registered new player with UUID " + uuid);
+
+		// Return the players UUID
+		// so they know who they are
+		return uuid;
+	}
+
 	public void Start()
 	{
 		// Make a new deck then shuffle it
