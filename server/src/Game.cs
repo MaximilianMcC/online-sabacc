@@ -1,3 +1,5 @@
+using System.Net.Sockets;
+
 class Game
 {
 	// Game stats
@@ -13,7 +15,7 @@ class Game
 		players = new List<Player>();
 	}
 
-	public string AddPlayer()
+	public string AddPlayer(NetworkStream stream)
 	{
 		// Get a random UUID for the player, and make
 		// an empty hand for them
@@ -23,7 +25,9 @@ class Game
 		// Make the player
 		players.Add(new Player() {
 			Uuid = uuid,
-			Hand = hand
+			Hand = hand,
+
+			Stream = stream
 		});
 
 		Console.WriteLine("Registered new player with UUID " + uuid);
@@ -50,6 +54,18 @@ class Game
 		{
 			player.Hand.Add(TakeCard(deck));
 			player.Hand.Add(TakeCard(deck));
+		}
+
+		// Tell all players that the game is starting
+		// and also tell them what their cards are
+		// TODO: Don't use another loop
+		foreach (Player player in players)
+		{
+			// Serialize the hand
+			string packet = string.Join(" ", player.Hand);
+
+			// Send it to the current player
+			Networking.SendPacket(packet, player.Stream);
 		}
 	}
 

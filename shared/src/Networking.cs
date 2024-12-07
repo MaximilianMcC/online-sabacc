@@ -8,6 +8,8 @@ public class Networking
 		// Convert, then send the packet
 		byte[] messageBytes = Encoding.UTF8.GetBytes(data);
 		stream.Write(messageBytes, 0, messageBytes.Length);
+
+		Console.WriteLine($"Sent packet '{data}'");
 	}
 
 	public static string ReceivePacket(NetworkStream stream)
@@ -15,6 +17,9 @@ public class Networking
 		// Get the packet, then convert it
 		byte[] buffer = new byte[1024];
 		int bytesRead = stream.Read(buffer, 0, buffer.Length);
-		return Encoding.UTF8.GetString(buffer, 0, bytesRead);
+		string data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+		Console.WriteLine($"Received packet '{data}'");
+		return data;
 	}
 }

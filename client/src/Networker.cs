@@ -25,4 +25,13 @@ class Networker
 		string uuid = Networking.ReceivePacket(stream);
 		Console.WriteLine("Got UUID " + uuid);
 	}
+
+	public static void RequestToStartGame()
+	{
+		// Ask to start (politely)
+		Networking.SendPacket("start", stream);
+
+		string hand = Networking.ReceivePacket(stream);
+		Console.WriteLine(hand);
+	}
 }

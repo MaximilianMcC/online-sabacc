@@ -4,6 +4,8 @@ using System.Text;
 
 class Program
 {
+	private static Game game;
+
 	public static void Main(string[] args)
 	{
 		// Make, then start the server
@@ -12,28 +14,61 @@ class Program
 
 		
 		// TODO: Don't do this
-		Game game = new Game();
+		game = new Game();
 
 
 		Console.WriteLine("Server on");
+		// TODO: Make HandleClient method or something
 		while (true)
 		{
 			// Get the connecting client
-			using TcpClient client = listener.AcceptTcpClient();
-			using NetworkStream stream = client.GetStream();
+			TcpClient client = listener.AcceptTcpClient();
 
-			// Get the incoming packet
-			string packet = Networking.ReceivePacket(stream);
+			// Make a new thread just for them (lucky) and
+			// handle them for the rest of the game and stuff
+			Task.Run(() => HandleClient(client));
+		}
+	}
 
-			// Check for what they wanna do
-			// TODO: Don't do this way
-			// TODO: Put somewhere else
-			if (packet == "join")
+	private static void HandleClient(TcpClient client)
+	{
+		// Get the stream to talk to the client with
+		NetworkStream stream = client.GetStream();
+		Console.WriteLine("Snagged a client");
+
+		try
+		{
+			// Keep listening for stuff from the stream
+			while (true)
 			{
-				string responsePacket = game.AddPlayer();
-				Networking.SendPacket(responsePacket, stream);
+				// Get the incoming packet
+				string packet = Networking.ReceivePacket(stream);
+
+				// Check for what they wanna do
+				// TODO: Don't do this way
+				// TODO: Put somewhere else
+				if (packet == "join")
+				{
+					Console.WriteLine("Player joining");
+					string responsePacket = game.AddPlayer(stream);
+					Networking.SendPacket(responsePacket, stream);
+				}
+				else if (packet == "start")
+				{
+					Console.WriteLine("Game starting");
+					game.Start();
+				}	
 			}
-			else if (packet == "start") game.Start();
+		}
+		catch (IOException)
+		{
+			// Bro left (their loss fr)
+			Console.WriteLine("Client disconnected 💔");
+		}
+		finally
+		{
+			// Dispose the client
+			client.Close();
 		}
 	}
 }

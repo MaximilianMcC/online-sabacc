@@ -8,7 +8,7 @@ public class Card
 		char sign = ' ';
 		if (Value != 0) sign = (Value > 0) ? '+' : '-';
 
-		return $"{sign}{Math.Abs(Value)}\t{Suite}";
+		return $"{Value},{(int)Suite}";
 	}
 }
 
