@@ -47,13 +47,13 @@ class Program
 				// Check for what they wanna do
 				// TODO: Don't do this way
 				// TODO: Put somewhere else
-				if (packet == "join")
+				if (packet == "JOIN")
 				{
 					Console.WriteLine("Player joining");
 					string responsePacket = game.AddPlayer(stream);
 					Networking.SendPacket(responsePacket, stream);
 				}
-				else if (packet == "start")
+				else if (packet == "START")
 				{
 					Console.WriteLine("Game starting");
 					game.Start();

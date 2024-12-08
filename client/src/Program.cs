@@ -23,8 +23,6 @@ class Program
 
 	private static void Start()
 	{
-		AssetManager.PrintEmbeddedAssets();
-
 		// Get the cards
 		CardManager.LoadCards();
 
@@ -34,6 +32,9 @@ class Program
 
 	private static void Update()
 	{
+		// Listen for server information
+		Networker.Listen();
+
 		// If we press space then start the game
 		if (Raylib.IsKeyPressed(KeyboardKey.Space)) Networker.RequestToStartGame();
 	}

@@ -19,7 +19,7 @@ class Networker
 	{
 		// Ask the server for a UUID and to
 		// get registered to the game
-		Networking.SendPacket("join", stream);
+		Networking.SendPacket("JOIN", stream);
 
 		// Get the response
 		string uuid = Networking.ReceivePacket(stream);
@@ -29,16 +29,31 @@ class Networker
 	public static void RequestToStartGame()
 	{
 		// Ask to start (politely)
-		Networking.SendPacket("start", stream);
+		Networking.SendPacket("START", stream);
+	}
 
-		// Get the hand and say that we started the game
-		string hand = Networking.ReceivePacket(stream);
-		foreach (string cardPacket in hand.Split(" "))
+	public static void Listen()
+	{
+		// Check for if we've got anything in the inbox
+		if (stream.DataAvailable == false) return;
+
+		// Get the incoming packet
+		string packet = Networking.ReceivePacket(stream);
+
+		// Check for whats happening
+		// TODO: Use switch or something
+		if (packet.StartsWith("GAME-START"))
 		{
-			CardManager.Hand.Add(new Card(cardPacket));
-		}
+			// Get the hand and say that we started the game
+			// TODO: Make method that checks, and returns "packet typeless" version (just data)
+			string hand = packet.Replace("GAME-START ", "");
+			foreach (string cardPacket in hand.Split(" "))
+			{
+				CardManager.Hand.Add(new Card(cardPacket));
+			}
 
-		// Say that we started the game
-		Program.GameStarted = true;
+			// Say that we started the game
+			Program.GameStarted = true;
+		}
 	}
 }

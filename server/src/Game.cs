@@ -62,7 +62,8 @@ class Game
 		foreach (Player player in players)
 		{
 			// Serialize the hand
-			string packet = string.Join(" ", player.Hand);
+			string hand = string.Join(" ", player.Hand);
+			string packet = "GAME-START " + hand;
 
 			// Send it to the current player
 			Networking.SendPacket(packet, player.Stream);
