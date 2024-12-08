@@ -3,11 +3,17 @@
 class Program
 {
 	public static bool GameStarted = false;
+	private static string serverIp;
+	private static string serverPort;
 
 	public static void Main(string[] args)
 	{
 		Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 		Raylib.InitWindow(800, 600, "Sabacc client");
+
+		// Quickly extract the server ip and port
+		serverIp = args[0];
+		serverPort = args[1];
 
 		Start();
 		while (!Raylib.WindowShouldClose())
@@ -27,7 +33,8 @@ class Program
 		CardManager.LoadCards();
 
 		// Do all the networking stuff
-		Networker.Network("127.0.0.1", 54321);
+		// Networker.Network("127.0.0.1", 54321);
+		Networker.Network(serverIp, int.Parse(serverPort));
 	}
 
 	private static void Update()
