@@ -31,7 +31,14 @@ class Networker
 		// Ask to start (politely)
 		Networking.SendPacket("start", stream);
 
+		// Get the hand and say that we started the game
 		string hand = Networking.ReceivePacket(stream);
-		Console.WriteLine(hand);
+		foreach (string cardPacket in hand.Split(" "))
+		{
+			CardManager.Hand.Add(new Card(cardPacket));
+		}
+
+		// Say that we started the game
+		Program.GameStarted = true;
 	}
 }

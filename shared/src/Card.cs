@@ -3,12 +3,23 @@ public class Card
 	public int Value;
 	public Suite Suite;
 
+	public Card() {}
+
+	public Card(string stringRepresentation)
+	{
+		// Separate the value and suit
+		string[] sections = stringRepresentation.Split("_");
+
+		// Get the value
+		Value = int.Parse(sections[0]);
+
+		// Get the suit
+		Suite = (Suite)int.Parse(sections[1]);
+	}
+
 	public override string ToString()
 	{
-		char sign = ' ';
-		if (Value != 0) sign = (Value > 0) ? '+' : '-';
-
-		return $"{Value},{(int)Suite}";
+		return $"{Value}_{(int)Suite}";
 	}
 }
 
